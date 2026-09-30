@@ -1,0 +1,33 @@
+{
+  "description": "Hand-written test questions with expected-answer notes, used to manually/semi-automatically evaluate RAG answer quality as the knowledge base grows. Fill in `expected_answer_contains` once real Citizen Charter content is ingested.",
+  "queries": [
+    {
+      "id": "q1",
+      "question": "How do I register a birth?",
+      "language": "en",
+      "expected_service": "Birth Registration",
+      "expected_answer_contains": []
+    },
+    {
+      "id": "q2",
+      "question": "जन्म दर्ता गर्न कति शुल्क लाग्छ?",
+      "language": "ne",
+      "expected_service": "Birth Registration",
+      "expected_answer_contains": []
+    },
+    {
+      "id": "q3",
+      "question": "What documents are needed for a citizenship recommendation letter?",
+      "language": "en",
+      "expected_service": "Citizenship Recommendation",
+      "expected_answer_contains": []
+    },
+    {
+      "id": "q4",
+      "question": "Which office handles marriage registration and what are the hours?",
+      "language": "en",
+      "expected_service": "Marriage Registration",
+      "expected_answer_contains": []
+    }
+  ]
+}

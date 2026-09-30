@@ -1,0 +1,50 @@
+# --- Environment / secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Python / backend ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+backend/venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Node / frontend ---
+node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+yarn-error.log*
+
+# --- Data & indexes (do not commit citizen data or vector stores) ---
+data/raw/*
+!data/raw/.gitkeep
+data/extracted/raw_text/*
+!data/extracted/raw_text/.gitkeep
+data/extracted/ocr_text/*
+!data/extracted/ocr_text/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/indexes/*
+!data/indexes/.gitkeep
+
+# Chroma persistent store
+chroma_db/
+*.sqlite3
+
+# --- Uploaded citizen documents (must never be committed) ---
+backend/tmp_uploads/
+tmp_uploads/
+
+# --- OS / editor ---
+.DS_Store
+.vscode/
+.idea/
+
+# --- Docker ---
+*.log
