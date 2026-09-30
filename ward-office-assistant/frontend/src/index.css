@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* TODO: add ward-specific font imports / base styles here once branding
+   assets are provided by the ward office. */
