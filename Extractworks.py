@@ -1,3 +1,21 @@
+"""
+Extraction pipeline for works.pdf (Kathmandu Metropolitan City ward citizen
+charter). One table per page, 6 columns:
+  0: क्र.सं. (serial number)      -- blank on continuation pages
+  1: सेवा (service name)          -- blank on continuation pages
+  2: आवश्यक कागजातहरू (documents) -- wraps across pages
+  3: सेवा शुल्क (fee)
+  4: लाग्ने समय (turnaround time)
+  5: जिम्मेवार व्यक्ति (responsible person)
+
+Approach: use pdfplumber to get exact cell bounding boxes from the PDF's
+vector table lines (reliable even though the embedded text layer is
+broken), render each cell individually at high DPI, auto-crop to the
+actual ink (many cells are mostly whitespace, which confuses Tesseract),
+then OCR each cell on its own so text never bleeds across columns.
+A blank serial-number column marks a continuation of the previous
+service's document list, which gets appended to the last complete row.
+"""
 
 import io
 import json
@@ -103,6 +121,8 @@ def extract_all_rows():
                         COLUMN_NAMES[i]: cell_texts[i] for i in range(len(COLUMN_NAMES))
                     })
                 else:
+                    # continuation of the previous service: append any
+                    # non-empty cell content onto the last open row
                     if not all_rows:
                         continue
                     last = all_rows[-1]
@@ -141,6 +161,13 @@ def to_nepali_numeral(n: int) -> str:
 
 if __name__ == "__main__":
     rows = extract_all_rows()
+
+    # The serial-number column is the least reliable OCR field: it's a
+    # single isolated Devanagari digit in an otherwise blank tall cell,
+    # which Tesseract frequently misreads (even as stray Latin letters).
+    # We process pages strictly in order, though, so the row's position
+    # in the list IS the correct serial number -- use that instead of
+    # trusting the OCR'd digit.
     for i, row in enumerate(rows, start=1):
         row["क्र.सं."] = to_nepali_numeral(i)
 
